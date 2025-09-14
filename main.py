@@ -4,6 +4,7 @@ matplotlib.use("TkAgg")
 import matplotlib.pyplot as plt
 import tkinter as tk
 from tkinter import ttk
+from PIL import Image, ImageTk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 def binary_to_signal(bits, bit_duration, fs):
@@ -80,20 +81,26 @@ def run_modulation(binary_input, choice, canvas_frame):
 def launch_gui():
     root = tk.Tk()
     root.title("Digital Modulation Simulator")
+    
+    bg_image = Image.open("bg1.png")
+    bg_photo = ImageTk.PhotoImage(bg_image)
+    
+    bg_label = tk.Label(root, image=bg_photo)
+    bg_label.place(relwidth=1, relheight=1)
 
-    input_frame = tk.Frame(root)
+    input_frame = tk.Frame(root,bd=2)
     input_frame.pack(side=tk.TOP, fill=tk.X, pady=10)
 
-    tk.Label(input_frame, text="Enter Binary Sequence:").pack(side=tk.LEFT, padx=5)
+    tk.Label(input_frame, text="Enter Binary Sequence:").pack(side=tk.LEFT, padx=10)
     binary_entry = tk.Entry(input_frame, width=20)
     binary_entry.pack(side=tk.LEFT, padx=5)
 
-    tk.Label(input_frame, text="Select Modulation Type:").pack(side=tk.LEFT, padx=5)
+    tk.Label(input_frame, text="Select Modulation Type:").pack(side=tk.LEFT, padx=10)
     modulation_choice = ttk.Combobox(input_frame, values=["AM", "FM", "PM", "ASK", "FSK", "PSK"])
     modulation_choice.current(0)
     modulation_choice.pack(side=tk.LEFT, padx=5)
 
-    canvas_frame = tk.Frame(root)
+    canvas_frame = tk.Frame(root, bd=2)
     canvas_frame.pack(fill=tk.BOTH, expand=True)
 
     def on_run():
